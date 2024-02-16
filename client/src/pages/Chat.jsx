@@ -5,7 +5,9 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import useChat from "../hooks/useChat";
 import useCheckAuth from "../hooks/useCheckAuth";
 
-const socket = io("http://localhost:5000");
+const IP_ADDRESS = process.env.MY_VARIABLE;
+
+const socket = io(`http://${IP_ADDRESS}4999`);
 
 const Chat = () => {
   useCheckAuth();

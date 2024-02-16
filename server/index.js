@@ -1,18 +1,22 @@
-const io = require("socket.io")(5000, {
+const io = require("socket.io")(4999, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: "*",
   },
 });
 
 io.on("connection", (socket) => {
-  console.log(socket.id);
+  console.log(`Socket connected: ${socket.id}`);
+
   socket.on("send_message", (data) => {
-    socket.broadcast.emit("receive_message", {
+    console.log("Message received:", data);
+    const messageWithDate = {
       ...data,
-      date: new Date(Date.now()),
-    });
+      date: new Date(Date.now())
+    };
+    socket.broadcast.emit("receive_message", messageWithDate);
   });
-  socket.on("receive_message", (data) => {
-    console.log(data);
+
+  socket.on("disconnect", () => {
+    console.log(`Socket disconnected: ${socket.id}`);
   });
 });
